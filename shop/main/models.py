@@ -1,4 +1,5 @@
 from django.db import models
+from unicodedata import category
 
 
 class Size(models.Model):
@@ -23,6 +24,10 @@ class Category(models.Model):
         indexes = [models.Index(fields=['name'])]
         verbose_name = 'category'
         verbose_name_plural = 'categories'
+
+
+    def get_item_count(self):
+        return ClothingItem.objects.filter(category=self).count()
 
 
 class ClothingItem(models.Model):
@@ -59,3 +64,13 @@ class ClothingItemSize(models.Model):
 
     class Meta:
         unique_together = ('clothing_item', 'size')
+
+
+class ItemImage(models.Model):
+    product = models.ForeignKey(ClothingItem, related_name='images',
+                                on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='product/%Y/%m/%d', blank=True)
+
+
+    def __str__(self):
+        return f'{self.product.name} - {self.image.name}'
