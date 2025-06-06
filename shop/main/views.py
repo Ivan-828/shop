@@ -1,10 +1,4 @@
-from lib2to3.fixes.fix_input import context
-from zoneinfo import available_timezones
-
 from django.views.generic import ListView, DetailView
-from django.shortcuts import render
-from unicodedata import category
-
 from .models import ClothingItem, Category, Size, ClothingItemSize
 from django.db.models import Q
 
@@ -21,6 +15,7 @@ class CatalogView(ListView):
         size_names = self.request.GET.getlist('size')
         min_price = self.request.GET.get('min_price')
         max_price = self.request.GET.get('max_price')
+        search_query = self.request.GET.get('q')
 
         if category_slugs:
             queryset = queryset.filter(category__slug__in=category_slugs)
@@ -61,7 +56,7 @@ class ClothingItemDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         clothing_item = self.object
-        available_sizes = ClothingItemSize.object.filter(clothing_item=clothing_item,
+        available_sizes = ClothingItemSize.objects.filter(clothing_item=clothing_item,
                                                          available=True)
         context['available_sizes'] = available_sizes
         return context

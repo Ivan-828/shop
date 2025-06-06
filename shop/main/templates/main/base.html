@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{%block title %}{%endblock title %}</title>
+    <title>{% block title %}{% endblock title %}</title>
 
     {% comment %} bootstrap {% endcomment %}
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
@@ -17,12 +17,12 @@
         <div class="header-logo">
             <img src="{% static 'img/rev.png' %}" alt="">
         </div>
-        <div class="search">
-            <form action="" id="search-form" class="search_form" style="display: none;">
+        {% comment %} <div class="search">
+            <form action="" id="search-form" class="search_form d-flex" style="display: none;">
                 <input type="text" name="q" class="form_input" placeholder="Search">
                 <button type="submit" class="btnforsearch"></button>
             </form>
-        </div>
+        </div> {% endcomment %}
         <div class="header-nav d-flex gap-4">
             <a href="#" class="h-profile">
                 <img src="{% static 'img/profile.png' %}" alt="">
