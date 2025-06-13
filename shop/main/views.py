@@ -31,6 +31,12 @@ class CatalogView(ListView):
         if max_price:
             queryset = queryset.filter(price__gte=max_price)
 
+        if search_query:
+            queryset = queryset.filter(
+                Q(name__icontains=search_query) |
+                Q(description__icontains=search_query)
+            ).distinct()
+
         return queryset
 
     def get_context_data(self, **kwargs):

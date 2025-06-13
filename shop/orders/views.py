@@ -7,7 +7,6 @@ from main.models import Size
 from django.conf import settings
 import stripe
 
-
 stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
 
 
@@ -45,7 +44,7 @@ def order_create(request):
             try:
                 session = stripe.checkout.Session.create(
                     payment_method_types=['card'],
-                    line_item=[
+                    line_items=[
                         {
                             'price_data': {
                                 'currency': 'usd',
@@ -58,8 +57,8 @@ def order_create(request):
                         } for item in cart
                     ],
                     mode='payment',
-                    success_url='https://localhost:8000/orders/completed',
-                    cancel_url='https://localhost:8000/orders/create',
+                    success_url='http://localhost:8000/orders/completed',
+                    cancel_url='http://localhost:8000/orders/create',
                 )
 
                 return redirect(session.url, code=303)
